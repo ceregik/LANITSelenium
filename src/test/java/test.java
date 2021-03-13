@@ -20,6 +20,7 @@ public class test {
 
     @Before
     public void start() {
+        System.setProperty("webdriver.chrome.driver", "src\\chromedriver.exe");
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         wait = new WebDriverWait(driver, 10);
