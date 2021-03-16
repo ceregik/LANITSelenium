@@ -1,6 +1,6 @@
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -33,7 +33,7 @@ public class test {
     private final By priceSelector =  By.xpath("//span[contains(text(),'₽')] /..");
 
 
-    @Before
+    @BeforeEach
     public void start() {
         System.setProperty("webdriver.chrome.driver", "src\\chromedriver.exe");
         driver = new ChromeDriver();
@@ -84,7 +84,7 @@ public class test {
 
     }
 
-    @After
+    @AfterEach
     public void stop(){
         driver.quit();
         driver = null;
