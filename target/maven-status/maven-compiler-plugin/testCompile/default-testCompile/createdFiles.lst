@@ -1,5 +1,6 @@
-WebDriverSteps.class
 cucumber\CategoryItem.class
-test.class
+RunnerTest.class
 cucumber\CucumberSteps.class
+WebDriverSteps.class
+test.class
 cucumber\PriceOrder.class
