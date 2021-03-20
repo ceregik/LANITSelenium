@@ -88,7 +88,6 @@ public class test {
 
     public void stop(){
         driver.quit();
-        driver = null;
     }
 }
 
