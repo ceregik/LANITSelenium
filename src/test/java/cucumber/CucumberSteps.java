@@ -60,7 +60,7 @@ public class CucumberSteps{
     }
 
     @Пусть("^открыт ресурс авито$")
-    public static void Open(){
+    public static void open(){
         driver.get(URL);
     }
 
@@ -72,12 +72,12 @@ public class CucumberSteps{
     }
 
     @И("^в поле поиска введено значение ([^\\\"]*)$")
-    public static void SearchSendKeys(String word){
+    public static void searchSendKeys(String word){
         driver.findElement(searchFormSuggest).sendKeys(word);
     }
 
     @Тогда("^кликнуть по выпадающему списку региона$")
-    public static void Region(){
+    public static void region(){
         driver.findElement(searchFormRegion).click();
     }
 
@@ -119,7 +119,6 @@ public class CucumberSteps{
     @After
     public void stop(){
         driver.quit();
-        driver = null;
     }
 
 
