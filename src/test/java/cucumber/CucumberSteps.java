@@ -6,19 +6,26 @@ import io.cucumber.java.ru.И;
 import io.cucumber.java.ru.Пусть;
 import io.cucumber.java.ru.Тогда;
 import io.cucumber.java.ParameterType;
+import io.qameta.allure.Attachment;
 import io.qameta.allure.Step;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.apache.commons.io.output.ByteArrayOutputStream;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import ru.yandex.qatools.ashot.AShot;
+import ru.yandex.qatools.ashot.Screenshot;
+import ru.yandex.qatools.ashot.shooting.ShootingStrategies;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -64,6 +71,12 @@ public class CucumberSteps{
     @Пусть("^открыт ресурс авито$")
     public static void Open(){
         driver.get(URL);
+        try {
+            getBytes("123.jpg");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Step
@@ -132,5 +145,42 @@ public class CucumberSteps{
         driver.quit();
     }
 
+
+    @Attachment(value="Screenshot", type="image/png")
+    private static byte[] captureScreenshot1(WebDriver driver)
+    {
+        byte[] screenshot = null;
+        screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+        return screenshot;
+    }
+
+
+
+
+
+    @Attachment(value = "Entirepage Screenshot", type = "image/png")
+    private static byte[] captureScreenshot(WebDriver driver) throws IOException {
+        try
+        {
+        BufferedImage image  = new AShot().shootingStrategy(ShootingStrategies.viewportPasting(1000)).takeScreenshot(driver).getImage();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(image, "png", baos);
+        baos.flush();
+        byte[] imageInByte = baos.toByteArray();
+        baos.close();
+        return imageInByte;
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return "Unable to Get Screenshot.".getBytes();
+
+    }
+
+    @Attachment
+    public static byte[] getBytes(String resourceName) throws IOException {
+        return Files.readAllBytes(Paths.get("src/main/resources", resourceName));
+    }
 
 }

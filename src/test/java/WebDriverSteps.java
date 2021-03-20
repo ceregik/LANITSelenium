@@ -40,7 +40,7 @@ public class WebDriverSteps {
     @Step("open Avito")
     public void openAvito() {
         driver.get("https://www.avito.ru/");
-        captureScreenshot(driver);
+        RunnerTest.captureScreenshot1(driver);
     }
 
     @Step("Выбрать в выпадающем списке “категория”  значение оргтехника и расходники")
