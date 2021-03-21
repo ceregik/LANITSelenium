@@ -6,6 +6,7 @@ import io.cucumber.java.ru.И;
 import io.cucumber.java.ru.Пусть;
 import io.cucumber.java.ru.Тогда;
 import io.cucumber.java.ParameterType;
+import io.qameta.allure.Allure;
 import io.qameta.allure.Attachment;
 import io.qameta.allure.Step;
 import org.apache.commons.io.output.ByteArrayOutputStream;
@@ -21,7 +22,9 @@ import ru.yandex.qatools.ashot.shooting.ShootingStrategies;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
 import java.nio.file.Files;
@@ -71,12 +74,13 @@ public class CucumberSteps{
     @Пусть("^открыт ресурс авито$")
     public static void Open(){
         driver.get(URL);
+      //  String link = "http://sberbank.ru";
         try {
-            getBytes("123.jpg");
+            InputStream screenshootStream = new ByteArrayInputStream(captureScreenshot(driver));
+            Allure.addAttachment("Entirepage Screenshot", screenshootStream);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     @Step
@@ -85,18 +89,36 @@ public class CucumberSteps{
         WebElement selectElem = driver.findElement(searchForm);
         Select select = new Select(selectElem);
         select.selectByValue(categoryItem.value);
+        try {
+            InputStream screenshootStream = new ByteArrayInputStream(captureScreenshot(driver));
+            Allure.addAttachment("Entirepage Screenshot", screenshootStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Step
     @И("^в поле поиска введено значение ([^\\\"]*)$")
     public static void SearchSendKeys(String word){
         driver.findElement(searchFormSuggest).sendKeys(word);
+        try {
+            InputStream screenshootStream = new ByteArrayInputStream(captureScreenshot(driver));
+            Allure.addAttachment("Entirepage Screenshot", screenshootStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Step
     @Тогда("^кликнуть по выпадающему списку региона$")
     public static void Region(){
         driver.findElement(searchFormRegion).click();
+        try {
+            InputStream screenshootStream = new ByteArrayInputStream(captureScreenshot(driver));
+            Allure.addAttachment("Entirepage Screenshot", screenshootStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Step
@@ -105,12 +127,24 @@ public class CucumberSteps{
         driver.findElement(popupLocation).sendKeys(city);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//strong[contains(text(),'"+ city +"')]"))).click();
         driver.findElement(popupLocationSaveButton).click();
+        try {
+            InputStream screenshootStream = new ByteArrayInputStream(captureScreenshot(driver));
+            Allure.addAttachment("Entirepage Screenshot", screenshootStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Step
     @И("^нажата кнопка показать объявления$")
     public static void clickButtonSearch(){
         driver.findElement(popupLocationSubmitButton).click();
+        try {
+            InputStream screenshootStream = new ByteArrayInputStream(captureScreenshot(driver));
+            Allure.addAttachment("Entirepage Screenshot", screenshootStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -121,6 +155,12 @@ public class CucumberSteps{
         js.executeScript("window.scrollTo(0, Math.max(document.documentElement.scrollHeight, document.body.scrollHeight, document.documentElement.clientHeight));");
         driver.findElement(deliveryFilter).click();
         driver.findElement(searchFiltersSubmitButton).click();
+        try {
+            InputStream screenshootStream = new ByteArrayInputStream(captureScreenshot(driver));
+            Allure.addAttachment("Entirepage Screenshot", screenshootStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Step
@@ -128,6 +168,12 @@ public class CucumberSteps{
     public static void expensive(PriceOrder priceOrder){
         Select select = new Select(driver.findElement(option));
         select.selectByValue(priceOrder.value);
+        try {
+            InputStream screenshootStream = new ByteArrayInputStream(captureScreenshot(driver));
+            Allure.addAttachment("Entirepage Screenshot", screenshootStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Step
@@ -136,6 +182,12 @@ public class CucumberSteps{
         List<WebElement> price = driver.findElements(priceSelector);
         for(int i = 0;i<howMany;i++){
             System.out.println(price.get(i).getText());
+            try {
+                InputStream screenshootStream = new ByteArrayInputStream(captureScreenshot(driver));
+                Allure.addAttachment("Entirepage Screenshot", screenshootStream);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
         }
     }
@@ -144,17 +196,6 @@ public class CucumberSteps{
     public void stop(){
         driver.quit();
     }
-
-
-    @Attachment(value="Screenshot", type="image/png")
-    private static byte[] captureScreenshot1(WebDriver driver)
-    {
-        byte[] screenshot = null;
-        screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-        return screenshot;
-    }
-
-
 
 
 
@@ -178,9 +219,6 @@ public class CucumberSteps{
 
     }
 
-    @Attachment
-    public static byte[] getBytes(String resourceName) throws IOException {
-        return Files.readAllBytes(Paths.get("src/main/resources", resourceName));
-    }
+
 
 }
