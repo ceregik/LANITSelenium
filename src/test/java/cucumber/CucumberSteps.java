@@ -182,12 +182,12 @@ public class CucumberSteps{
         List<WebElement> price = driver.findElements(priceSelector);
         for(int i = 0;i<howMany;i++){
             System.out.println(price.get(i).getText());
-            try {
-                InputStream screenshootStream = new ByteArrayInputStream(captureScreenshot(driver));
-                Allure.addAttachment("Entirepage Screenshot", screenshootStream);
-            } catch (IOException e) {
-                e.printStackTrace();
             }
+        try {
+            InputStream screenshootStream = new ByteArrayInputStream(captureScreenshot(driver));
+            Allure.addAttachment("Entirepage Screenshot", screenshootStream);
+        } catch (IOException e) {
+            e.printStackTrace();
 
         }
     }
