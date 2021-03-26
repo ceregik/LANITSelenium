@@ -74,7 +74,7 @@ public class CucumberSteps{
     @Пусть("^открыт ресурс авито$")
     public static void Open(){
         driver.get(URL);
-      //  String link = "http://sberbank.ru";
+
         try {
             InputStream screenshootStream = new ByteArrayInputStream(captureScreenshot(driver));
             Allure.addAttachment("Entirepage Screenshot", screenshootStream);
@@ -203,7 +203,7 @@ public class CucumberSteps{
     private static byte[] captureScreenshot(WebDriver driver) throws IOException {
         try
         {
-        BufferedImage image  = new AShot().takeScreenshot(driver).getImage();//.shootingStrategy(ShootingStrategies.takeScreenshot(driver).getImage();
+        BufferedImage image  = new AShot().takeScreenshot(driver).getImage();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(image, "png", baos);
         baos.flush();
