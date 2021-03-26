@@ -203,7 +203,7 @@ public class CucumberSteps{
     private static byte[] captureScreenshot(WebDriver driver) throws IOException {
         try
         {
-        BufferedImage image  = new AShot().shootingStrategy(ShootingStrategies.viewportPasting(1000)).takeScreenshot(driver).getImage();
+        BufferedImage image  = new AShot().takeScreenshot(driver).getImage();//.shootingStrategy(ShootingStrategies.takeScreenshot(driver).getImage();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(image, "png", baos);
         baos.flush();
